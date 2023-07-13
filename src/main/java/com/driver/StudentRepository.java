@@ -27,10 +27,10 @@ public class StudentRepository {
 
     public void addStudentTeacherPair(String student, String teacher) {
         if(teacherToStudentsDb.containsKey(teacher)==false){
-            System.out.println("incondion");
+//            System.out.println("incondion");
             teacherToStudentsDb.put(teacher,new ArrayList<>());
         }
-        System.out.println(teacherToStudentsDb);
+//        System.out.println(teacherToStudentsDb);
         teacherToStudentsDb.get(teacher).add(student);
     }
 
@@ -61,5 +61,6 @@ public class StudentRepository {
 
     public void deleteALlTeachers() {
         teacherDb.clear();
+        studentDb.clear();
     }
 }
