@@ -62,5 +62,6 @@ public class StudentRepository {
     public void deleteALlTeachers() {
         teacherDb.clear();
         studentDb.clear();
+        teacherToStudentsDb.clear();
     }
 }
