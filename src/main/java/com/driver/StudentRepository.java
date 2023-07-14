@@ -26,22 +26,28 @@ public class StudentRepository {
     }
 
     public void addStudentTeacherPair(String student, String teacher) {
-        if(teacherToStudentsDb.containsKey(teacher)==false){
-//            System.out.println("incondion");
-            teacherToStudentsDb.put(teacher,new ArrayList<>());
-        }
-//        System.out.println(teacherToStudentsDb);
-        teacherToStudentsDb.get(teacher).add(student);
+        if(!teacherToStudentsDb.containsKey(teacher))
+            teacherToStudentsDb.put(teacher, new ArrayList<>());
+
+        ArrayList<String> studentList = teacherToStudentsDb.get(teacher);
+        studentList.add(student);
+
         Teacher teacher1 = teacherDb.get(teacher);
-        teacher1.setNumberOfStudents(teacherToStudentsDb.get(teacher).size());
+        teacher1.setNumberOfStudents(studentList.size());
+
+        teacherToStudentsDb.put(teacher, studentList);
     }
 
     public Student getStudentByName(String name) {
-        return studentDb.get(name);
+        if(studentDb.containsKey(name))
+            return studentDb.get(name);
+        return null;
     }
 
     public Teacher getTeacherByName(String name) {
-        return teacherDb.get(name);
+        if(teacherDb.containsKey(name))
+            return teacherDb.get(name);
+        return null;
     }
 
     public List<String> getStudentsByTeacherName(String teacher) {
