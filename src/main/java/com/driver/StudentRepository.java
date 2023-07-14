@@ -32,6 +32,8 @@ public class StudentRepository {
         }
 //        System.out.println(teacherToStudentsDb);
         teacherToStudentsDb.get(teacher).add(student);
+        Teacher teacher1 = teacherDb.get(teacher);
+        teacher1.setNumberOfStudents(teacherToStudentsDb.get(teacher).size());
     }
 
     public Student getStudentByName(String name) {
