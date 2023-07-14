@@ -65,8 +65,11 @@ public class StudentRepository{
     }
 
     public void deleteAllTeachers() {
-        for(String teacher : teacherMap.keySet()){
-            deleteTeacherByName(teacher);
-        }
+//        for(String teacher : teacherMap.keySet()){
+//            deleteTeacherByName(teacher);
+//        }
+        studentMap.clear();
+        teacherMap.clear();
+        teacherStudentMap.clear();
     }
 }
