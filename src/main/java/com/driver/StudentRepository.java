@@ -14,7 +14,7 @@ public class StudentRepository {
 
     private HashMap<String,Teacher> teacherDb = new HashMap<>();
 
-    private HashMap<String, ArrayList<String>> teacherToStudentsDb = new HashMap<>();
+    private HashMap<String, List<String>> teacherToStudentsDb = new HashMap<>();
 
 
     public void addStudent(Student student) {
@@ -29,7 +29,7 @@ public class StudentRepository {
         if(!teacherToStudentsDb.containsKey(teacher))
             teacherToStudentsDb.put(teacher, new ArrayList<>());
 
-        ArrayList<String> studentList = teacherToStudentsDb.get(teacher);
+        List<String> studentList = teacherToStudentsDb.get(teacher);
         studentList.add(student);
 
         Teacher teacher1 = teacherDb.get(teacher);
@@ -64,6 +64,7 @@ public class StudentRepository {
         for(String str:teacherToStudentsDb.get(teacher)){
             studentDb.remove(str);
         }
+        teacherToStudentsDb.remove(teacher);
         teacherDb.remove(teacher);
     }
 
