@@ -1,76 +1,72 @@
 package com.driver;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
-public class StudentRepository {
-
-    private HashMap<String,Student> studentDb = new HashMap<>();
-
-    private HashMap<String,Teacher> teacherDb = new HashMap<>();
-
-    private HashMap<String, List<String>> teacherToStudentsDb = new HashMap<>();
-
-
+public class StudentRepository{
+    Map<String, Student> studentMap = new HashMap<>();
+    Map<String, Teacher> teacherMap = new HashMap<>();
+    Map<String, List<String>> teacherStudentMap = new HashMap<>();
     public void addStudent(Student student) {
-        studentDb.put(student.getName(), student);
+        studentMap.put(student.getName(), student);
     }
 
     public void addTeacher(Teacher teacher) {
-        teacherDb.put(teacher.getName(),teacher);
+        teacherMap.put(teacher.getName(), teacher);
     }
 
     public void addStudentTeacherPair(String student, String teacher) {
-        if(!teacherToStudentsDb.containsKey(teacher))
-            teacherToStudentsDb.put(teacher, new ArrayList<>());
+        if(!teacherStudentMap.containsKey(teacher))
+            teacherStudentMap.put(teacher, new ArrayList<>());
 
-        List<String> studentList = teacherToStudentsDb.get(teacher);
+        List<String> studentList = teacherStudentMap.get(teacher);
         studentList.add(student);
 
-        Teacher teacher1 = teacherDb.get(teacher);
+        Teacher teacher1 = teacherMap.get(teacher);
         teacher1.setNumberOfStudents(studentList.size());
 
-        teacherToStudentsDb.put(teacher, studentList);
+        teacherStudentMap.put(teacher, studentList);
     }
 
     public Student getStudentByName(String name) {
-        if(studentDb.containsKey(name))
-            return studentDb.get(name);
+        if(studentMap.containsKey(name))
+            return studentMap.get(name);
         return null;
     }
 
     public Teacher getTeacherByName(String name) {
-        if(teacherDb.containsKey(name))
-            return teacherDb.get(name);
+        if(teacherMap.containsKey(name))
+            return teacherMap.get(name);
         return null;
     }
 
     public List<String> getStudentsByTeacherName(String teacher) {
-        return teacherToStudentsDb.get(teacher);
+        if(teacherStudentMap.containsKey(teacher))
+            return teacherStudentMap.get(teacher);
+        return new ArrayList<>();
     }
 
     public List<String> getAllStudents() {
-        List<String> list = new ArrayList<>();
-        for(String key:studentDb.keySet())list.add(key);
-        return list;
+        return new ArrayList<>(studentMap.keySet());
     }
 
     public void deleteTeacherByName(String teacher) {
-        for(String str:teacherToStudentsDb.get(teacher)){
-            studentDb.remove(str);
+        teacherMap.remove(teacher);
+        List<String> students = teacherStudentMap.get(teacher);
+        teacherStudentMap.remove(teacher);
+        for(String student : students){
+            studentMap.remove(student);
         }
-        teacherToStudentsDb.remove(teacher);
-        teacherDb.remove(teacher);
     }
 
-    public void deleteALlTeachers() {
-        teacherDb.clear();
-        studentDb.clear();
-        teacherToStudentsDb.clear();
+    public void deleteAllTeachers() {
+        for(String teacher : teacherMap.keySet()){
+            deleteTeacherByName(teacher);
+        }
     }
 }

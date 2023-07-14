@@ -43,6 +43,6 @@ public class StudentService {
     }
 
     public void deleteAllTeachers() {
-        studentRepository.deleteALlTeachers();
+        studentRepository.deleteAllTeachers();
     }
 }
